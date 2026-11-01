@@ -1520,8 +1520,8 @@ V[5].flow=()=>'<div class="hero">'+hd(6,'Mode <b>Google Flow</b>')+
     const h=x.h;
     const prompt=promptFor(x).p;
     return '<div class="flow-row">'+
-      '<div><div class="im" style="aspect-ratio:'+AR()+'">'+(h.img?'<img src="'+esc(ref(h.img))+'">':'<span>pas d\\'image</span>')+'</div>'+dlBtn(h,'plan')+'</div>'+
-      '<div><div class="lab">Plan '+(i+1)+' — Prompt IA</div><textarea readonly>'+esc(prompt)+'</textarea><div class="rw"><button class="sm" onclick="navigator.clipboard.writeText(this.parentNode.previousElementSibling.value).then(()=>toast(\\'Prompt copié !\\'))">📋 Copier le prompt</button></div></div>'+
+      '<div><div class="im" style="aspect-ratio:'+AR()+'">'+(h.img?'<img src="'+esc(ref(h.img))+'">':'<span>pas d\'image</span>')+'</div>'+dlBtn(h,'plan')+'</div>'+
+      '<div><div class="lab">Plan '+(i+1)+' — Prompt IA</div><textarea readonly>'+esc(prompt)+'</textarea><div class="rw"><button class="sm" onclick="navigator.clipboard.writeText(this.parentNode.previousElementSibling.value).then(()=>toast(\'Prompt copié !\'))">📋 Copier le prompt</button></div></div>'+
     '</div>';
   }).join('')+
   foot(btn('sub','← Retour aux plans','','data-p="5" data-s="rev"'))+'</div>';
