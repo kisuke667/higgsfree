@@ -1507,10 +1507,24 @@ V[5].cfg=()=>'<div class="hero">'+hd(6,'Les <b>plans</b>')+guide('👉 L\'IA va 
   foot(btn('go','← Précédent','','data-n="4"'),nextBtn('plgo','✦ Découper et créer les images'))+'</div>';
 
 V[5].rev=()=>'<div class="hero">'+hd(6,'Vos <b>plans</b>')+guide('✓ Plans et images prêts. 👉 Chaque image deviendra une vidéo. <b>Livrables déjà disponibles</b> : exportez JSON/Markdown/CSV/SRT dès maintenant.','go')+
+  '<div class="rw" style="margin-bottom:14px">'+btn('sub','🚀 Mode Google Flow (Copie/Collage manuel)','big ghost','data-p="5" data-s="flow"')+'</div>'+
   P.scenes.map((s,i)=>'<h3>Scène '+(i+1)+' — '+esc(s.title)+'</h3><div class="grid">'+((s.shots||[]).map(shotCard).join('')||'<span class="lab">Pas de plan.</span>')+'</div><div class="rw" style="margin-top:6px">'+btn('addshot','+ Ajouter un plan','sm','data-id="'+s.id+'"')+'</div>').join('')+
   '<div class="rw" style="margin-top:12px">'+btn('redo','↺ Refaire avec l\'IA','','data-n="5"')+'</div>'+
   exportBar(5)+
   foot(btn('go','← Précédent','','data-n="4"'),nextBtn('go','Continuer vers les vidéos','data-n="6"'))+'</div>';
+
+V[5].flow=()=>'<div class="hero">'+hd(6,'Mode <b>Google Flow</b>')+
+  guide('Utilisez cette page pour copier les prompts et télécharger les images afin de générer vos vidéos manuellement dans Google Flow.')+
+  '<style>.flow-row{display:grid;grid-template-columns:140px 1fr;gap:18px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--line)}.flow-row textarea{font-size:12px;height:120px;margin:0}</style>'+
+  shots().map((x,i)=>{
+    const h=x.h;
+    const prompt=promptFor(x).p;
+    return '<div class="flow-row">'+
+      '<div><div class="im" style="aspect-ratio:'+AR()+'">'+(h.img?'<img src="'+esc(ref(h.img))+'">':'<span>pas d\\'image</span>')+'</div>'+dlBtn(h,'plan')+'</div>'+
+      '<div><div class="lab">Plan '+(i+1)+' — Prompt IA</div><textarea readonly>'+esc(prompt)+'</textarea><div class="rw"><button class="sm" onclick="navigator.clipboard.writeText(this.parentNode.previousElementSibling.value).then(()=>toast(\\'Prompt copié !\\'))">📋 Copier le prompt</button></div></div>'+
+    '</div>';
+  }).join('')+
+  foot(btn('sub','← Retour aux plans','','data-p="5" data-s="rev"'))+'</div>';
 
 V[6].cfg=()=>'<div class="hero">'+hd(7,'Les <b>vidéos</b>')+(liveVideoKeys().length?'':'<div class="guide er"><b>Aucune clé vidéo active.</b> <div class="rw" style="margin-top:8px"><button class="sm" data-a="novideo" data-k="guide">Voir le guide de création manuelle</button></div></div>')+
   '<p class="sub">Chaque image de plan est transformée en vidéo par Agnès. La file d\'attente vidéo est souvent saturée : l\'app envoie les plans un par un, et si c\'est plein elle attend toute seule (3, 6, 12, 24… minutes) avant de réessayer. <b>Gardez cet onglet ouvert.</b> En attendant, regardez le film en « animatic » (images + voix).</p>'+
@@ -1992,6 +2006,7 @@ async function onClick(e){
   const a=b.dataset.a,id=b.dataset.id;
   if(TASK&&OK_DURING.indexOf(a)<0)return toast('Une opération est en cours : patientez ou cliquez sur Arrêter');
   if(a=='go')go(+b.dataset.n);
+  else if(a=='sub'){P.sub[b.dataset.p]=b.dataset.s;render()}
   else if(a=='con')$('#con').classList.toggle('on');
   else if(a=='novideo'){
     const guide='<div class="hero">'+hd(7,'Guide : <b>Création vidéo manuelle</b>')+
