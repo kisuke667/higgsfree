@@ -1013,6 +1013,7 @@ const shots=()=>{
   P.scenes.forEach(s=>{(s.shots||[]).forEach(h=>out.push({h:h,s:s}))});
   return out;
 };
+const liveVideoKeys=()=>KEYS.list.filter(o=>!o.off&&(VIDEO_DIRECT.has(o.provider)&&o.videoModel));
 const allObjs=()=>{
   const arr=[].concat(P.chars,P.scenes);
   P.scenes.forEach(s=>(s.shots||[]).forEach(h=>arr.push(h)));
@@ -1511,7 +1512,7 @@ V[5].rev=()=>'<div class="hero">'+hd(6,'Vos <b>plans</b>')+guide('✓ Plans et i
   exportBar(5)+
   foot(btn('go','← Précédent','','data-n="4"'),nextBtn('go','Continuer vers les vidéos','data-n="6"'))+'</div>';
 
-V[6].cfg=()=>'<div class="hero">'+hd(7,'Les <b>vidéos</b>')+
+V[6].cfg=()=>'<div class="hero">'+hd(7,'Les <b>vidéos</b>')+(liveVideoKeys().length?'':'<div class="guide er"><b>Aucune clé vidéo active.</b> <div class="rw" style="margin-top:8px"><button class="sm" data-a="novideo" data-k="guide">Voir le guide de création manuelle</button></div></div>')+
   '<p class="sub">Chaque image de plan est transformée en vidéo par Agnès. La file d\'attente vidéo est souvent saturée : l\'app envoie les plans un par un, et si c\'est plein elle attend toute seule (3, 6, 12, 24… minutes) avant de réessayer. <b>Gardez cet onglet ouvert.</b> En attendant, regardez le film en « animatic » (images + voix).</p>'+
   '<div class="cd" id="qp" style="margin:12px 0"></div>'+
   '<div class="rw">'+btn('play','🎬 Voir le film maintenant')+btn('playloop','🔁 Lire en boucle','sm')+btn('searchproj','🔎 Rechercher','sm')+'</div>'+exportBar(6)+
@@ -1992,6 +1993,25 @@ async function onClick(e){
   if(TASK&&OK_DURING.indexOf(a)<0)return toast('Une opération est en cours : patientez ou cliquez sur Arrêter');
   if(a=='go')go(+b.dataset.n);
   else if(a=='con')$('#con').classList.toggle('on');
+  else if(a=='novideo'){
+    const guide='<div class="hero">'+hd(7,'Guide : <b>Création vidéo manuelle</b>')+
+    '<p class="sub">Aucune clé vidéo active ou valide. Vous pouvez créer les vidéos manuellement via <b>Google Flow</b> ou d\'autres outils en suivant ces étapes :</p>'+
+    '<h3>1. Télécharger les images et les prompts</h3>'+
+    '<div class="rw" style="margin-bottom:12px"><button class="sm" data-a="exportmd">⬇ Télécharger le dossier Markdown (contient tous les prompts et dialogues)</button></div>'+
+    '<p class="sub">Le fichier Markdown contient tous les prompts d\'images et les dialogues pour chaque plan. Vous pouvez aussi utiliser le bouton « 📋 Prompts » pour copier les prompts.</p>'+
+    '<h3>2. Générer les vidéos avec Google Flow</h3>'+
+    '<p class="sub">1. Ouvrez <a href="https://flow.google.com" target="_blank" style="color:var(--accent)">Google Flow</a> (ou tout autre outil de génération vidéo).</p>'+
+    '<p class="sub">2. Pour chaque plan, utilisez l\'image générée (bouton ⬇ IMG) comme image de référence et collez le prompt du plan.</p>'+
+    '<p class="sub">3. Générez la vidéo pour chaque plan et téléchargez les MP4.</p>'+
+    '<h3>3. Assembler le film</h3>'+
+    '<p class="sub">1. Importez les vidéos dans un éditeur (CapCut, DaVinci Resolve, etc.).</p>'+
+    '<p class="sub">2. Ajoutez les dialogues (disponibles dans le fichier Markdown) et une musique de fond.</p>'+
+    '<p class="sub">3. Exportez en 16:9 ou 9:16.</p>'+
+    '<h3>4. Importer dans HIGGSFREE</h3>'+
+    '<p class="sub">Pour chaque plan, cliquez sur la vignette et ajoutez l\'URL de la vidéo ou utilisez le bouton « ⬇ IMG » pour télécharger l\'image.</p>'+
+    foot(btn('go','← Retour aux vidéos','','data-n="6"'))+'</div>';
+    $('#main').innerHTML=guide;return;
+  }
   else if(a=='help'){
     $('#mdc').innerHTML='<h3>Aide rapide</h3>'+
       '<p class="sub">1. Ajoutez au moins une clé API (page 1).</p>'+
