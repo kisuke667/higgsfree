@@ -2106,8 +2106,13 @@ async function onClick(e){
     if(!u)return toast('Aucune image à télécharger');
     const kind=b.dataset.k||'img';
     const slug=((P.title||'film').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40)||'film');
-    const save=(href,ext)=>{const l=document.createElement('a');l.href=href;l.download=slug+'-'+kind+'-'+String(id).slice(-4)+'.'+(ext||'png');document.body.appendChild(l);l.click();l.remove();};
-    (async()=>{try{const r=await fetch(u);if(!r.ok)throw 0;const bl=await r.blob();const ou=URL.createObjectURL(bl);const ext=(bl.type||'').includes('jpeg')||(bl.type||'').includes('jpg')?'jpg':(bl.type||'').includes('webp')?'webp':'png';save(ou,ext);setTimeout(()=>URL.revokeObjectURL(ou),8000);toast('⬇ Image téléchargée')}catch(e){save(u);toast('⬇ Image téléchargée')}})();
+    const name=slug+'-'+kind+'-'+String(id).slice(-4);
+    const save=(href,ext)=>{const l=document.createElement('a');l.href=href;l.download=name+'.'+(ext||'png');l.target='_blank';document.body.appendChild(l);l.click();l.remove();};
+    (async()=>{try{const r=await fetch(u,{mode:'cors'});if(!r.ok)throw 0;const bl=await r.blob();const ou=URL.createObjectURL(bl);const ext=(bl.type||'').includes('jpeg')||(bl.type||'').includes('jpg')?'jpg':(bl.type||'').includes('webp')?'webp':'png';save(ou,ext);setTimeout(()=>URL.revokeObjectURL(ou),8000);toast('⬇ Image téléchargée')}catch(e){
+      // Fallback CORS-friendly via proxy public pour le téléchargement
+      const pu='https://api.allorigins.win/raw?url='+encodeURIComponent(u);
+      try{const r=await fetch(pu);if(!r.ok)throw 0;const bl=await r.blob();const ou=URL.createObjectURL(bl);save(ou,'jpg');toast('⬇ Image téléchargée')}
+      catch(e2){save(u);toast('⚠️ Ouverture dans l’onglet (CORS)')}}})();
   }
   else if(a=='redo')redo(+b.dataset.n);
   else if(a=='gen'){const i=document.querySelector('[data-mod="'+id+'"]');gen(id,{extra:i&&i.value.trim()})}
