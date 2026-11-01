@@ -1518,7 +1518,7 @@ V[5].flow=()=>'<div class="hero">'+hd(6,'Mode <b>Google Flow</b>')+
   '<style>.flow-row{display:grid;grid-template-columns:140px 1fr;gap:18px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--line)}.flow-row textarea{font-size:12px;height:120px;margin:0}</style>'+
   shots().map((x,i)=>{
     const h=x.h;
-    const prompt=promptFor(x).p;
+    const prompt=promptFor({t:'h',o:h,s:x.s}).p;
     return '<div class="flow-row">'+
       '<div><div class="im" style="aspect-ratio:'+AR()+'">'+(h.img?'<img src="'+esc(ref(h.img))+'">':'<span>pas d\'image</span>')+'</div>'+dlBtn(h,'plan')+'</div>'+
       '<div><div class="lab">Plan '+(i+1)+' — Prompt IA</div><textarea readonly>'+esc(prompt)+'</textarea><div class="rw"><button class="sm" onclick="navigator.clipboard.writeText(this.parentNode.previousElementSibling.value).then(()=>toast(\'Prompt copié !\'))">📋 Copier le prompt</button></div></div>'+
