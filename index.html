@@ -758,6 +758,7 @@ function fall(e){if(mode=='idb'){mode='ls';log('wr','IndexedDB indisponible ('+(
 async function dbGet(s,k){if(db&&mode=='idb'){try{return await tx(s,'readonly',o=>o.get(k))}catch(e){fall(e)}}try{const v=localStorage.getItem(lsK(s,k));if(v!=null)return JSON.parse(v)}catch(e){}return mem[s][k]}
 async function dbPut(s,v){const k=v.key||v.id;mem[s][k]=v;if(db&&mode=='idb'){try{return await tx(s,'readwrite',o=>o.put(v))}catch(e){fall(e)}}try{localStorage.setItem(lsK(s,k),JSON.stringify(v))}catch(e){try{localStorage.setItem(lsK(s,k),JSON.stringify(v,(kk,val)=>typeof val==='string'&&val.length>200&&val.startsWith('data:')?'':val))}catch(e2){log('er','sauvegarde locale impossible (quota) — projet gardé en mémoire')}}}
 async function dbDel(s,k){delete mem[s][k];if(db&&mode=='idb'){try{return await tx(s,'readwrite',o=>o.delete(k))}catch(e){fall(e)}}try{localStorage.removeItem(lsK(s,k))}catch(e){}}
+async function dbClearAll(s){if(db&&mode=='idb'){try{return await tx(s,'readwrite',o=>o.clear())}catch(e){fall(e)}}if(s==='sessions')mem.sessions={};try{localStorage.clear()}catch(e){log('er','clear localstorage impossible')}}
 async function dbAll(s){if(db&&mode=='idb'){try{return await tx(s,'readonly',o=>o.getAll())}catch(e){fall(e)}}const o=Object.assign({},mem[s]);try{for(let i=0;i<localStorage.length;i++){const n=localStorage.key(i);if(n.startsWith(lsK(s,''))){const v=JSON.parse(localStorage.getItem(n));o[v.key||v.id]=v}}}catch(e){}return Object.values(o)}
 let svT;function save(){if(!P)return;clearTimeout(svT);svT=setTimeout(()=>{P.upd=Date.now();dbPut('sessions',P).catch(e=>log('er','sauvegarde : '+e.message))},350)}
 
@@ -2193,7 +2194,11 @@ async function onClick(e){
     l.href=u;l.download=(P.title||'film')+'.md';l.click();
   }
   else if(a=='sess')sessions();
-  else if(a=='new'){setP(newP());$('#md').classList.remove('on');page=KEYS.list.length?1:0;render()}
+  else if(a=='clearsess'){
+    if(!confirm('Supprimer toutes les sessions ?'))return;
+    await dbClearAll('sessions');
+    setP(newP());page=KEYS.list.length?1:0;render();sessions();toast('Sessions effacées');
+  }
   else if(a=='open'){
     const p=await dbGet('sessions',id);
     if(p){setP(p);page=KEYS.list.length?Math.max(1,Math.min(p.page||1,6)):0;$('#md').classList.remove('on');render();resume()}
@@ -2273,14 +2278,15 @@ document.addEventListener('play',e=>{
 document.addEventListener('keydown',e=>{if(e.key=='Escape'&&playing)stopPlay();if(e.key==' '&&page==6&&!TASK&&!playing){e.preventDefault();play()};if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()=='s'){e.preventDefault();save();toast('Sauvegardé')}});
 async function sessions(){
   const l=(await dbAll('sessions')).sort((a,b)=>b.upd-a.upd);
-  $('#mdc').innerHTML='<h3>Mes films</h3><p class="sub">Tout est enregistré automatiquement dans ce navigateur : textes, images, vidéos générées.</p><div class="rw">'+btn('new','+ Nouveau film','big')+btn('clearallsess','Tout effacer','sm')+btn('closemd','Fermer')+'</div>'+
-    l.map(p=>{
+  $('#mdc').innerHTML='<h3>Mes films</h3><p class="sub">Tout est enregistré automatiquement dans ce navigateur : textes, images, vidéos générées.</p><div class="rw">'+btn('new','+ Nouveau film','big')+'<button class="sm ghost" data-a="clearsess">🗑 Vider les sessions</button>'+'</div>'+
+    (l.length?l.map(p=>{
       const sh=p.scenes.flatMap(s=>s.shots||[]);
       const nv=sh.filter(h=>h.video&&!h.seen).length;
       return '<div class="cd" style="margin-top:8px"><b>'+esc(p.title||(p.genre&&p.genre.name)||'Sans titre')+'</b>'+(p.id==P.id?' · <span class="lab">en cours</span>':'')+
         '<div class="lab">'+new Date(p.upd).toLocaleString('fr-FR')+' · '+p.scenes.length+' scènes · '+sh.filter(h=>h.img).length+' images · '+sh.filter(h=>h.video).length+' vidéos'+(nv?' · '+nv+' non vues':'')+'</div>'+
         '<div class="rw">'+btn('open','Ouvrir','sm','data-id="'+p.id+'"')+btn('dup','Dupliquer','sm','data-id="'+p.id+'"')+btn('renamesess','Renommer','sm','data-id="'+p.id+'"')+btn('delsess','Supprimer','sm','data-id="'+p.id+'"')+'</div></div>';
-    }).join('');
+    }).join(''):guide('Aucun film en local.'))+
+    '<div class="ft">'+btn('closemd','Fermer')+'</div>';
   $('#md').classList.add('on');
 }
 $('#md').addEventListener('click',e=>{if(e.target.id=='md')e.target.classList.remove('on')});
