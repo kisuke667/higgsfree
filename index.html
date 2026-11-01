@@ -1043,9 +1043,13 @@ const st=()=>P.genre?P.genre.style:'cinematic';
 
 function promptFor(f){
   const o=f.o;
+  let desc=o.desc;
+  // Neutraliser les mentions d'âge
+  desc=desc.replace(/\b(teenager|1[0-9]|adolescent|jeune|enfant)\b/gi,'young person').replace(/\b(old|vieux|vieille|âgé)\b/gi,'aged person');
+
   if(f.t=='c'){
     return {
-      p:'Full-body character reference, plain neutral background, '+st()+'. '+o.name+': '+o.desc+'. '+(o.outfit?'Wearing: '+o.outfit+'.':'')+' No text, no watermark.',
+      p:'Full-body character reference, plain neutral background, '+st()+'. '+o.name+': '+desc+'. '+(o.outfit?'Wearing: '+o.outfit+'.':'')+' No text, no watermark.',
       refs:[],
       ratio:'9:16'
     };
