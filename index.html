@@ -14,32 +14,26 @@
    Noir obsidienne · Lime électrique · Studio brut
    ─══════════════════════════════════════════ */
 :root{
-  --bg:var(--bg);
-  --bg-soft:var(--bg-soft);
-  --panel:var(--panel);
-  --panel-2:var(--panel-2);
-  --panel-3:var(--panel-3);
-  --line:var(--line);
-  --line-strong:var(--line-strong);
-  --ink:var(--ink);
-  --ink-2:var(--ink-2);
-  --dim:var(--dim);
-  --muted:var(--muted);
-  --faint:var(--faint);
-  --accent:var(--accent);
-  --accent-2:var(--accent-2);
-  --accent-ink:var(--bg);
-  --accent-glow:0 0 0 1px rgba(var(--accent-rgb),0.18), 0 12px 40px rgba(var(--accent-rgb),0.14);
-  --violet:var(--violet);
-  --orange:var(--orange);
-  --ok:var(--ok);
-  --er:var(--er);
-  --mono:'JetBrains Mono', ui-monospace, monospace;
-  --sans:'Inter', system-ui, -apple-system, sans-serif;
-  --display:'Space Grotesk', Inter, system-ui, sans-serif;
-  --radius:18px;
-  --radius-sm:12px;
-  --radius-pill:999px;
+  --bg: #060608;
+  --bg-soft: #0a0a0c;
+  --ink: #F2F0EB;
+  --ink-2: #E8E6E1;
+  --accent: #E8FF42;
+  --accent-rgb: 232,255,66;
+  --accent-ink: #060608;
+  --panel: #111113;
+  --panel-2: #17171A;
+  --panel-3: #1E1E21;
+  --line: rgba(255,255,255,0.07);
+  --line-strong: rgba(255,255,255,0.13);
+  --dim: #9A9AA0;
+  --muted: #6B6B70;
+  --faint: #3A3A3E;
+  --ok: #22C55E;
+  --er: #FF3B30;
+  --orange: #FF4D12;
+  --violet: #8B5CF6;
+  --ease: cubic-bezier(.16,1,.3,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scrollbar-width:thin;scrollbar-color:var(--faint) transparent}
@@ -469,7 +463,28 @@ body.light .im{background:#EDE9E2}
 .cd:hover .im img{transform:scale(1.02);transition:transform .35s cubic-bezier(.16,1,.3,1)}
 .im img{transition:transform .35s}
 /* ── V10 BLUFFANT · boot / marquee / cursor / spotlight / reveal / palette ── */
-:root{--ease:cubic-bezier(.16,1,.3,1)}
+:root{
+  --bg: #060608;
+  --bg-soft: #0a0a0c;
+  --ink: #F2F0EB;
+  --ink-2: #E8E6E1;
+  --accent: #E8FF42;
+  --accent-rgb: 232,255,66;
+  --accent-ink: #060608;
+  --panel: #111113;
+  --panel-2: #17171A;
+  --panel-3: #1E1E21;
+  --line: rgba(255,255,255,0.07);
+  --line-strong: rgba(255,255,255,0.13);
+  --dim: #9A9AA0;
+  --muted: #6B6B70;
+  --faint: #3A3A3E;
+  --ok: #22C55E;
+  --er: #FF3B30;
+  --orange: #FF4D12;
+  --violet: #8B5CF6;
+  --ease: cubic-bezier(.16,1,.3,1);
+}
 #boot{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;transition:opacity .5s var(--ease),visibility .5s}
 #boot.done{opacity:0;visibility:hidden}
 #boot .b-logo{font:700 30px var(--display);letter-spacing:-.02em}
@@ -559,7 +574,8 @@ body.light .cinema-desc{color:var(--dim)}
 .cinema-workbar{display:grid;grid-template-columns:minmax(160px,.7fr) minmax(170px,1.1fr) minmax(170px,.9fr) 96px;align-items:center;gap:18px;min-height:96px;margin:0 0 18px;padding:14px 18px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:linear-gradient(100deg,rgba(var(--accent-rgb),.045),rgba(255,255,255,.018) 42%,rgba(var(--orange-rgb),.045));position:relative;overflow:hidden}.cinema-workbar:before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent)}.cw-brand small,.cw-project small,.cw-progress small{display:block;color:var(--muted);font:500 8px var(--mono);letter-spacing:.15em;text-transform:uppercase}.cw-brand b{display:block;margin-top:5px;color:var(--ink);font:700 13px var(--display);letter-spacing:.02em}.cw-project strong{display:block;margin-top:5px;color:var(--ink-2);font:600 20px var(--display);letter-spacing:-.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cw-progress span{display:block;margin-top:6px;color:var(--muted);font:500 9px var(--mono);letter-spacing:.08em;text-transform:uppercase}.cw-bar{height:2px;margin-top:9px;background:rgba(255,255,255,.11)}.cw-bar i{display:block;height:100%;background:var(--accent);box-shadow:0 0 12px rgba(var(--accent-rgb),.4)}.cw-art{height:64px;border:1px solid rgba(255,255,255,.15);background:radial-gradient(circle at 65% 39%,#111214 0 11px,#ff7a2d 12px,#e8ff42 13px,var(--orange) 17px,transparent 36px),radial-gradient(ellipse at 65% 45%,rgba(var(--orange-rgb),.34),transparent 60%),linear-gradient(155deg,#25251d,#0a0b0d 70%);position:relative;overflow:hidden}.cw-art:after{content:"";position:absolute;left:0;right:0;bottom:0;height:24px;background:linear-gradient(155deg,transparent 15%,#141512 16% 35%,transparent 36%),linear-gradient(180deg,transparent,#08090a)}@media(max-width:680px){.cinema-workbar{grid-template-columns:1fr auto;gap:12px;min-height:82px;padding:12px 14px}.cw-project{grid-column:1}.cw-progress{grid-column:1;grid-row:2}.cw-art{grid-column:2;grid-row:1/3;width:80px;height:58px}.cw-brand{display:none}.cw-project strong{font-size:17px}.cw-progress span{font-size:8px}.cw-bar{margin-top:6px}}
 .cw-strip{grid-column:1/-1;display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;padding:2px 0 4px;scrollbar-width:none}.cw-strip::-webkit-scrollbar{display:none}.cw-f{flex:none;width:112px;scroll-snap-align:start;position:relative}.cw-f .cw-t{position:relative;aspect-ratio:16/9;border:1px solid rgba(255,255,255,.12);border-radius:6px;overflow:hidden;background:var(--bg-soft)}.cw-f img,.cw-f .cw-ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.cw-ph{background:repeating-linear-gradient(135deg,#15161a 0 6px,#0d0e11 6px 12px)}.cw-f b{position:absolute;left:5px;top:4px;font:700 9px var(--mono);color:#060608;background:var(--accent);padding:1px 4px;border-radius:3px}.cw-f i{position:absolute;right:4px;bottom:4px;width:7px;height:7px;border-radius:50%;background:#55555c;box-shadow:0 0 0 2px rgba(0,0,0,.5)}.cw-f.ok i{background:var(--ok);box-shadow:0 0 8px rgba(34,197,94,.7)}.cw-f.run i{background:var(--accent);animation:pulse 1s infinite}.cw-f.er i{background:var(--er)}.cw-f.cur .cw-t{border-color:var(--accent);box-shadow:0 0 0 2px rgba(232,255,66,.25)}.cw-count{grid-column:1/-1;display:flex;justify-content:space-between;color:var(--muted);font:500 9px var(--mono);letter-spacing:.1em;text-transform:uppercase}@media(max-width:680px){.cw-strip{grid-column:1}.cw-f{width:96px}}
 @media(prefers-reduced-motion:reduce){.poster-shell,.cinema-cta{transition:none}}
-</style></head><body>
+</style>  <link rel="stylesheet" href="style.css">
+</head><body>
 <header>
   <div class="logo">
     <div class="logo-mark">HF</div>
