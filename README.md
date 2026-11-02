@@ -5,7 +5,7 @@
 > **Fork enrichi** de [CINÉ-GENESIS d'Agnes AI Film Maker](https://github.com/laurentvoanhofficiel-jpg/Agnes-ai-film-maker-Universal-one-page-HTML-4-all) par Laurent Voan Ho — réinventé en **HIGGSFIELD EDITION**.
 
 [![Preview](https://img.shields.io/badge/Preview-HIGGSFREE-E8FF42?style=for-the-badge)](https://higgsfree-psi.vercel.app)
-[![Version](https://img.shields.io/badge/version-v13_VIDEO_PACK-111113?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v14_OBSIDIAN_LIME-111113?style=flat-square)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/License-MIT-8E8E93?style=flat-square)](LICENSE)
 [![Stack](https://img.shields.io/badge/stack-HTML_·_CSS_·_Vanilla_JS-0A0A0C?style=flat-square)](#stack-technique)
 
