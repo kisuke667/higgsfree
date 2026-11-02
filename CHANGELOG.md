@@ -1,5 +1,8 @@
 # Changelog
 
+## v14 – TRAVAUX EN COURS (2026-11-01)
+- Initialisation de la version 14.
+
 ## v13 — PACK VIDÉO GRATUITE (2026-10-28)
 - Nouveaux providers : NovAI (vidéo gratuite `cogvideox-flash` async + retry saturation, image `cogview-3-flash`, texte `glm-4.6v-flash`), JSON2Video (`x-api-key`, ~600s offertes, MP4 par plan avec voix FR), Free.ai (texte `/v1/chat/` `qwen7b`, 30k tokens/jour), LinkModel (relais texte `kimi-k3.1-pro`)
 - Fix Pollinations palier public : pas d'`Authorization` factice + URL texte corrigée (`text.pollinations.ai/openai`)
